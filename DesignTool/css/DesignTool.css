@@ -1,3 +1,7 @@
+ 
+
+
+
 .design-toolbox
 {
 	padding: 10px;
@@ -12,11 +16,10 @@
 	width: 200px;
 	top: 20px;
 	right: 20px;
-	display: none;
 	text-indent: 0;
 }
 
-.toolbox-selector
+.toolbox-selector, .info-selector
 {
 	background: url('../images/tool-selector-bg.png') no-repeat top left;
 	width: 32px;
@@ -25,13 +28,14 @@
 	cursor: pointer;
 	top: 10px;
 	left: 10px;
+	display: none;
 }
 
-.toolbox-selector span
+.toolbox-selector span, .info-selector span
 {
 	display: block;
 	padding-top: 6px;
-	margin-left: 11px;
+	margin-left: 12px;
 	font-weight: bold;
 	font-family: Arial;
 	font-size: 14px;

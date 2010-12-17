@@ -16,6 +16,7 @@ html, body {
 	border-right: solid 1px #ccc;
 	height: 100%;
 	display: table;
+	background: #fff;
 }
 
 #menu ul, #footer ul {
