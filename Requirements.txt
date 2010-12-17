@@ -1,0 +1,21 @@
+REQUIREMENTS
+--------------
+
+
+- Allow users to edit
+	- Colors
+	- Font
+	- Vertical position
+		Possibly:
+			- Size (height)
+			- Background Images
+			
+- Allow new edit tools to be added later
+
+- Require nothing but css classes to be added to element for enabling editing (ie, <div id="header" class="header designable">content</div>)
+
+- Save / Export
+	- Template files (HTML to start)
+	- CSS files
+	- Images (copy)
+

@@ -1,0 +1,23 @@
+body {
+	width:expression(document.documentElement.clientWidth < 925 ? "925px" : "auto");
+}
+.logo a{
+	background:url(../images/transparent.gif) fixed;
+	filter:progid:dximagetransform.microsoft.alphaimageloader(src='images/logo.png', sizingmethod='crop');
+}
+.slogan{
+	background:url(../images/transparent.gif) fixed;
+	filter:progid:dximagetransform.microsoft.alphaimageloader(src='images/slogan.png', sizingmethod='crop');
+}
+.welcome{
+	background:none;
+	filter:progid:dximagetransform.microsoft.alphaimageloader(src='images/bg-welcome.png', sizingmethod='crop');
+}
+.great-deasls{
+	background:none;
+	filter:progid:dximagetransform.microsoft.alphaimageloader(src='images/bg-great-deasls.png', sizingmethod='crop');
+}
+.navigation{
+	background:none;
+	filter:progid:dximagetransform.microsoft.alphaimageloader(src='images/bg-navigation.png', sizingmethod='crop');
+}

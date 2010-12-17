@@ -1,0 +1,37 @@
+p, h1 {
+	margin: 0; padding: 0;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper
+{
+	width: 900px;
+	margin: 0 auto;
+	border-left: solid 1px #ccc;
+	border-right: solid 1px #ccc;
+	height: 100%;
+	display: table;
+}
+
+#menu ul, #footer ul {
+	list-style: none;
+	overflow: auto;
+	margin: 0;
+	padding: 0;
+}
+
+#menu ul li, #footer ul li {
+	float: left;
+	margin-right: 25px;
+}
+
+#footer {
+	display: table-footer-group;
+	width: 900px;
+	height: 100px;
+}
