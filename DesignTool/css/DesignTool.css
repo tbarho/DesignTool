@@ -1,7 +1,7 @@
- 
 
 
-
+/* Unused */
+/*
 .design-toolbox
 {
 	padding: 10px;
@@ -18,7 +18,127 @@
 	right: 20px;
 	text-indent: 0;
 }
+*/
 
+/* Toolbox Styles */ 
+
+.ui-dialog
+{
+	font-size: 12px;
+	font-family: Arial;
+}
+
+	/* The ColorTool Styles */
+	.colorTool
+	{
+		
+	}
+	.colorTool ul
+	{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow: auto;
+	}
+	.colorTool ul li
+	{
+		float: left;
+		margin-right: 10px;
+	}
+	.colorTool .colorTool-title
+	{
+		margin-top: 10px;
+	}
+	.colorSelector
+	{
+		background: url('../images/colorpicker-default/select2.png') repeat scroll 0 0 transparent;
+		height: 36px;
+		width: 36px;
+		position: relative;
+		cursor:pointer;
+	}
+	.colorSelector div
+	{
+		background: url('../images/colorpicker-default/select2.png') repeat scroll center center transparent;
+		height: 28px;
+		width: 28px;
+		position: absolute;
+		top: 4px;
+		left: 4px;
+	}
+	
+	.colorChooser
+	{
+		display: none;
+	}
+	
+	/* Custom Color Picker Images */
+	.colorpicker {
+		background: url('../images/colorpicker-default/custom_background.png');
+		z-index: 9999;
+	}
+	.colorpicker_hex
+	{
+		background: url('../images/colorpicker-default/custom_hex.png');
+	}
+	.colorpicker_rgb_r
+	{
+		background: url('../images/colorpicker-default/custom_rgb_r.png');
+	}
+	.colorpicker_rgb_g
+	{
+		background: url('../images/colorpicker-default/custom_rgb_g.png');
+	}
+	.colorpicker_rgb_b
+	{
+		background: url('../images/colorpicker-default/custom_rgb_b.png');
+	}
+	.colorpicker_hsb_h
+	{
+		background: url('../images/colorpicker-default/custom_hsb_h.png');
+	}
+	.colorpicker_hsb_s
+	{
+		background: url('../images/colorpicker-default/custom_hsb_s.png');
+	}
+	.colorpicker_hsb_b
+	{
+		background: url('../images/colorpicker-default/custom_hsb_b.png');
+	}
+	.colorpicker_submit
+	{
+		background: url('../images/colorpicker-default/custom_submit2.png');
+	}
+	
+	
+	/* The Slider Tool Styles */
+	.slider
+	{
+		margin-top: 10px;
+		margin-left: 10px;
+		overflow: auto;
+	}
+	.slider ul
+	{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		padding: 5px 0;
+	}
+	.slider ul li
+	{
+		float: left;
+		margin-right: 10px;
+	}
+	.slider .sliderBar
+	{
+		width: 100px;
+	}
+
+
+
+
+/* Toolbox Selector Styles */
 .toolbox-selector, .info-selector
 {
 	background: url('../images/tool-selector-bg.png') no-repeat top left;
