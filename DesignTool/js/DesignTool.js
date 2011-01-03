@@ -35,48 +35,20 @@
         		
                 // Create the toolbox element
                 var toolbox = $('<div></div>');
+                
+                // Call the buildToolBox function to get all the tools for the toolbox
+                toolbox.buildToolBox(this.attr('class'), element);
                                 
-                // Figure out which tools should be added
-                var classList = this.attr('class').split(/\s/);
-                
-                // Add the tools to the toolbox if the class exists
-                for(i = 0; i < classList.length; i++) {
-                        
-                        // This is where we define what "adding a tool" is
-                        // Right now, its just text, whilest we get the actual toolbox going.
-                        switch(classList[i])
-                        {
-                                case "color":
-                                        var colorHolder = $('<div class="colorChoose"></div>');
-                                        colorHolder.ColorPicker({
-                                        	flat: true,
-                                        	onChange: function(hsb, hex, rgb) {
-                                        		element.setColor(hex);
-                                        	}
-                                        });
-                                        colorHolder.appendTo(toolbox);
-                                        break;
-                                case "y-position":
-                                        //$('<p> - Position Tool</p>').appendTo(toolbox);
-                                        break;
-                                case "height":
-                                        //$('<p> - Height Tool</p>').appendTo(toolbox);
-                                        break;
-                                case "upload":
-                                        //$('<p> - Upload Tool</p>').appendTo(toolbox);
-                                        break;
-                        }
-                        
-                }
-                
+                                
                 // Add to the count, so the selector number is right
                 toolBoxCount++;
 
-                // Set the id of the toolbox            
-                toolbox.attr('id', 'toolbox-' + toolBoxCount);
+                // Set the id of the toolbox
+                var toolboxID = 'toolbox-' + toolBoxCount;            
+                toolbox.attr('id', toolboxID);
                 
                 // Set the dialog width
-                var dialogWidth = 400;
+                var dialogWidth = 380;
                 
                 // Use the dialog width to create the dialog X position
                 var dialogX = $('body').width() - dialogWidth - 30;
@@ -90,7 +62,23 @@
                 	closeText: 'Close',
                 	width: dialogWidth,
                 	position: [dialogX, 10]
+                	/*
+open: function(event,ui) {
+                		$('.ui-dialog:visible').each(function() {
+                			// Find the ID of the toolbox
+                			var currentID = $(this).children('.ui-widget-content').attr('id');
+                			
+                			// If it doesnt match the id of this toolbox, hide it
+                			if(currentID != toolboxID) {
+                				$(this).dialog('close');
+                			}
+                		});
+                	}
+*/
                 });
+                
+                                
+                
                 
                 
                 // Add the toolbox selector
@@ -102,6 +90,35 @@
                 
                 
                 
+        }
+        
+        
+        /**
+		 * extension function buildToolBox
+		 * 
+		 * The controls to the toolbox based on the classes of the editable HTML element
+		 *
+		 */
+        $.fn.buildToolBox = function(classesArray, parentElement) {
+        
+        	var toolbox = this;
+        	var tools = classesArray.split(/\s/);
+        	
+        	// Favor jQuery for over standard javascript for (for state, context)
+        	$(tools).each(function() {
+        		switch(this.toString())
+        		{
+        			case 'color':
+        				toolbox.addColorPicker(parentElement);
+        				break;
+        			case 'y-position':
+        				toolbox.addPositionSlider(parentElement);
+        				break;
+        			case 'upload':
+        				toolbox.addUploader(parentElement);
+        				break;
+        		}
+        	});
         }
         
         
@@ -125,9 +142,10 @@
                 
                 var toolBoxID = '#toolbox-' + count;
                 
-                toolboxSelector.click(function() {
-                		$('.ui-dialog:visible').dialog('close');
-                        $(toolBoxID).dialog('open');
+                toolboxSelector.bind('click', function(event) {
+                	console.log($('.ui-dialog'));
+                	$('.ui-widget-content').dialog('close').delay(400);
+                	$(toolBoxID).dialog('open');
                 });
                 
                 // Append the selector
@@ -158,6 +176,11 @@
         	var info = $('<div id="info">Use the <div class="info-selector" style="position: relative; display: inline-block; margin: 0; padding: 0; top: 0; left: 0;"><span>#</span></div>\'s to edit things.</div>');
         	info.dialog({ 
         		modal: true,
+        		buttons: {
+        			Ok: function () {
+        				$(this).dialog('close');
+        			}
+        		},
         		close: function() {
         		
         			// Fade in the toolboxes
@@ -175,12 +198,155 @@
         }
         
         
-        $.fn.addColorPicker = function (element) {
+        /**
+		 * extension function addColorPicker
+		 * 
+		 * Adds a color picker to a toolbox
+		 *
+		 */
+        $.fn.addColorPicker = function (colorizedElement) {
         	
+        	// ToDo
+        	
+			// 1 - Find the color of the colorized element (set to white if none)
+			
+			
+			
+			var defaultColor = (colorizedElement.css('backgroundColor') != 'transparent') ? colorizedElement.css('backgroundColor') : 'rgb(255, 255, 255)';
+			
+			
+			
+			// Parse the RGB String to Hex, since Hex seems to work better with the ColorPicker plugin
+			
+			defaultColor = defaultColor.toString();
+			defaultColor = defaultColor.replace('rgb(','');
+			defaultColor = defaultColor.replace(')', '');
+			defaultColor = defaultColor.split(', ');
+			
+			var defaultHex = "";
+			
+			// Use the jQuery for equivalent to persist state and allow for nested for's
+			$(defaultColor).each(function () {
+				defaultHex += toHex(this.toString().replace(/^\s*|\s*$/g,""));
+				
+			});
+			
+			
+
+			// 2 - Create the swatch (with default color)
+			
+			var swatch = $('<div class="colorTool"><ul><li><div class="colorSelector"><div style="background-color:#' + 
+							defaultHex + '"></div></div></li><li class="colorTool-title">Background</li></ul></div>');
+			
+			
+			// 3 - Create the colorpicker
+			
+			var colorChooser = $('<div class="colorChooser"></div>');
+			
+			colorChooser.ColorPicker({
+				flat: true,
+				color: defaultHex,
+				onChange: function(hsb, hex, rgb) {
+					colorizedElement.setColor(hex);
+					$('.colorSelector>div',swatch).setColor(hex);
+				},
+				onSubmit: function(hsb, hex, rgb) {
+					colorizedElement.setColor(hex);
+					$('.colorSelector>div',swatch).setColor(hex);
+					colorChooser.slideUp();
+				}
+			});
+			
+			
+			// 4 - Wire the show / hide functionality to the swatch
+			
+			swatch.bind('click', function () {
+				if(colorChooser.is(':visible')) {
+					colorChooser.stop().slideUp();
+				} else {
+					colorChooser.stop().slideDown();
+				}
+			});
+			
+			
+			// 5 - Add all this stuff to the toolbox
+
+            swatch.appendTo(this);
+            colorChooser.appendTo(this);
         }
         
+        /**
+		 * extension function setColor
+		 * 
+		 * Sets background color of an element
+		 *
+		 */
         $.fn.setColor = function (hex) {
 			this.css('backgroundColor', '#' + hex);
+		}
+		
+		/**
+		 * function addIntroModal
+		 * 
+		 * Parses RGB value to Hex Value (e.g. 255 to FF)
+		 *
+		 */
+		function toHex(N) {
+			if (N==null) return "00";
+			N=parseInt(N); 
+			if (N==0 || isNaN(N)) return "00";
+			N=Math.max(0,N); 
+			N=Math.min(N,255); 
+			N=Math.round(N);
+			return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16);
+		}
+		
+		$.fn.addPositionSlider = function(parentElement) {
+			var slider = $('<div class="slider"><ul><li class="sliderBar"></li><li class="sliderTool-title">Position</li></ul></div>');
+			$('.sliderBar', slider).slider({
+				min: -50,
+				max: 50,
+				value: 0,
+				slide: function(event, ui) {
+					parentElement.css('margin-top', ui.value.toString() + 'px');
+				}
+			});
+			slider.appendTo(this);
+		}
+		
+		$.fn.addUploader = function(parentElement) {
+			var id = 'uploader-' + toolBoxCount;
+			var uploader = $('<div class="upload"><input type="file" /><div id="queue-' + toolBoxCount + '"></div><a href="javascript:$(\'#' + id + '\').uploadifyUpload();">Upload Files</a></div>');
+			
+			var randomNumber = Math.floor(Math.random()*1000000001);
+			
+			$('input', uploader).attr('id', id);
+			$('input', uploader).attr('name', id);
+			
+			$('input', uploader).uploadify({
+				'uploader'			: '../DesignTool/js/uploadify/uploadify.swf',
+				'script'			: '../DesignTool/js/uploadify/uploadify.php',
+				'cancelImg'			: '../DesignTool/js/uploadify/cancel.png',
+				'folder'			: '../uploads',
+				'auto'				: false,
+				'wmode'				: 'transparent',
+				'multi'				: false,
+				'queueID'			: 'queue-' + toolBoxCount,
+				'removeCompleted' 	: false,
+				'scriptData'		: {'uniqueFileID':randomNumber},
+				'onComplete'		: function(event, ID, fileObj, response, data) {
+					parentElement.changeImage(response);
+				}
+			});
+			
+			
+			
+			uploader.appendTo(this);
+		}
+		
+		$.fn.changeImage = function(imagePath) {
+			console.log(this);
+			this.css('background-image', "url('" + imagePath + "')");
 		}
         
         
