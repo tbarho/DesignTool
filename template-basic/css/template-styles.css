@@ -1,11 +1,19 @@
 p, h1 {
 	margin: 0; padding: 0;
 }
-
+a {
+	outline: none;
+}
 html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	background: #346b34;
+}
+
+#body {
+	min-height: 100%;
+	height: 100%;
 }
 
 .wrapper
@@ -14,9 +22,14 @@ html, body {
 	margin: 0 auto;
 	border-left: solid 1px #ccc;
 	border-right: solid 1px #ccc;
+	min-height: 100%;
 	height: 100%;
 	display: table;
 	background: #fff;
+}
+
+#logo h1 {
+	height: 90px;
 }
 
 #menu ul, #footer ul {
@@ -35,4 +48,5 @@ html, body {
 	display: table-footer-group;
 	width: 900px;
 	height: 100px;
+	min-height: 100px;
 }
