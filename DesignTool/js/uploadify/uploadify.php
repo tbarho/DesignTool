@@ -43,7 +43,88 @@ if (!empty($_FILES)) {
 		// mkdir(str_replace('//','/',$targetPath), 0755, true);
 		
 		move_uploaded_file($tempFile,$targetFile);
-		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+		
+		
+		
+		// Imagick stuff
+		
+		
+		// TODO: Check the file type and fail if not image
+		
+		/* Create the Item JSON array */
+		//$itemArray = array();
+		
+		//$imageArray = array("id" => str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile));
+		
+		/* Add the imageID to the array */
+		//array_push($itemArray, array("img" => $imageArray));
+				
+		/* The original image is the average colors */
+		$average = new Imagick( $targetFile );
+		 
+		/* Reduce the amount of colors to 10 */
+		$average->quantizeImage( 5, Imagick::COLORSPACE_RGB, 0, false, false );
+		 
+		/* Only save one pixel of each color */
+		$average->uniqueImageColors();
+		
+		// Create an array
+		$colorArray = array();
+		
+		
+		// Create a pixel iterator
+		$it = $average->getPixelIterator();
+		
+		// Start the iterator over
+		$it->resetIterator();
+		
+		// This is useless, just used to check html
+		//$colorBox = '';
+		
+		$i = 0;
+		
+		// Loop through and get the pixel values
+		while($row = $it->getNextIteratorRow()) {
+			foreach($row as $pixel) {
+				$pixelArray = $pixel->getColor();
+				
+				$r = dechex($pixelArray['r']);
+				$g = dechex($pixelArray['g']);
+				$b = dechex($pixelArray['b']);
+				
+				if(strlen($r) < 2) { $r = 0 . $r; }
+				if(strlen($g) < 2) { $g = 0 . $g; }
+				if(strlen($b) < 2) { $b = 0 . $b; }
+				
+				$hex = "#" . $r . $g . $b;
+				
+				//$colorItem = array("id" => "$i", "color" => $hex);
+				
+				//array_push($colorArray, $colorItem);  
+				
+				$colorArray[] = $hex;
+				
+				// This is useless, just outputs html boxes with hex colors to make sure they are right.
+				//$colorBox .= '<div style="height: 20px; width: 20px; border: solid 1px #000; float: left; margin: 5px; background: ' . $hex . ';">&nbsp;</div>';
+				
+				$i++;
+				
+			}
+		}
+		
+		//array_push($itemArray, array('colors' => $colorArray));
+		
+		$itemArray = array();
+		$itemArray['image'] = str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+		$itemArray['colors'] = $colorArray;
+		
+		
+		echo json_encode($itemArray, JSON_FORCE_OBJECT);
+		
+		
+		
+		
+		//echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
 		
 		
 	// } else {
