@@ -8,30 +8,39 @@
 		<link rel="stylesheet" href="css/template-styles.css" />
 		
 		<!-- DesignTool css includes -->
-		<link rel="stylesheet" href="../DesignTool/css/DesignTool.css" />
+		
 		<link type="text/css" href="../DesignTool/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="Stylesheet" />	
 		<link rel="stylesheet" href="../DesignTool/css/colorpicker.css" type="text/css" />
+		<link rel="stylesheet" href="../DesignTool/js/uploadify/uploadify.css" type="text/css" />
+		<link rel="stylesheet" href="../DesignTool/css/DesignTool.css" />
 		
-		<!-- Script includes -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="../DesignTool/js/colorpicker.js" type="text/javascript"></script>
-		<script src="../DesignTool/js/eye.js" type="text/javascript"></script>
-		<script src="../DesignTool/js/utils.js" type="text/javascript"></script>
-		<script src="../DesignTool/js/DesignTool.js" type="text/javascript"></script>
+		<!-- JavaScript includes -->
 		
-		<!-- <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script> -->
-		
+			<!-- jQuery Libraries -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>
+			
+			<!-- ColorPicker Libraries -->
+			<script src="../DesignTool/js/colorpicker.js" type="text/javascript"></script>
+			<script src="../DesignTool/js/eye.js" type="text/javascript"></script>
+			<script src="../DesignTool/js/utils.js" type="text/javascript"></script>
+			
+			<!-- Uploadify Libraries -->
+			<script src="../DesignTool/js/uploadify/swfobject.js" type="text/javascript"></script>
+			<script src="../DesignTool/js/uploadify/jquery.uploadify.v2.1.4.min.js" type="text/javascript"></script>
+			
+			<!-- Design Tool Library -->
+			<script src="../DesignTool/js/DesignTool.js" type="text/javascript"></script>
 		
 		
 		<!--[if lte IE 8]>
       		<script src="http://js.cwhcode.com/html5/"></script>
     	<![endif]-->
 	</head>
-	<body class="toolbox color" style="position: relative;">
+	<body class="toolbox color weight-4" style="position: relative;">
 		<div class="wrapper">
 			<div id="header">
-				<div id="logo" class="toolbox color"><h1>Logo</h1></div>
+				<div id="logo" class="toolbox upload y-position color"><h1>Logo</h1></div>
 				<div id="menu">
 					<ul>
 						<li><a href="#">Home</a></li>
@@ -45,13 +54,13 @@
 				<div class="splash">
 					splash image
 				</div>
-				<div id="content" class="toolbox color">
+				<div id="content" class="toolbox color upload y-position weight-1">
 					<p>
-						I am some content.
+						This is some content
 					</p>
 				</div>
 			</div>
-			<div id="footer">
+			<div id="footer" class="weight-3">
 				<ul>
 					<li>&copy; 2011 SiteSprocket LLC</li>
 					<li><a href="#">Home</a></li>
