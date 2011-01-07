@@ -3,6 +3,7 @@
 		// Variable used for tying selectors to toolboxes
         var toolBoxCount = 0;
         
+        
         /**
 		 * extension function addToolboxes
 		 * 
@@ -17,6 +18,7 @@
                         $(this).addToolbox();
                 });
         }
+        
         
         /**
 		 * extension function addToolbox
@@ -62,33 +64,13 @@
                 	closeText: 'Close',
                 	width: dialogWidth,
                 	position: [dialogX, 10]
-                	/*
-open: function(event,ui) {
-                		$('.ui-dialog:visible').each(function() {
-                			// Find the ID of the toolbox
-                			var currentID = $(this).children('.ui-widget-content').attr('id');
-                			
-                			// If it doesnt match the id of this toolbox, hide it
-                			if(currentID != toolboxID) {
-                				$(this).dialog('close');
-                			}
-                		});
-                	}
-*/
                 });
-                
-                                
-                
-                
                 
                 // Add the toolbox selector
                 this.addToolBoxSelector(toolBoxCount);
                 
-                
-                
-                                
-                
-                
+                // Add an identifier to the parent element
+                this.addClass('tb-' + toolBoxCount);
                 
         }
         
@@ -121,7 +103,6 @@ open: function(event,ui) {
         	});
         }
         
-        
                 
         /**
 		 * extension function addToolBoxSelection
@@ -143,7 +124,6 @@ open: function(event,ui) {
                 var toolBoxID = '#toolbox-' + count;
                 
                 toolboxSelector.bind('click', function(event) {
-                	console.log($('.ui-dialog'));
                 	$('.ui-widget-content').dialog('close').delay(400);
                 	$(toolBoxID).dialog('open');
                 });
@@ -152,6 +132,7 @@ open: function(event,ui) {
                 $('body').append(toolboxSelector).delay(1000).fadeIn();
 
         }
+        
         
         /**
 		 * extension function setPosition
@@ -187,9 +168,7 @@ open: function(event,ui) {
         			var delay = 500;
         			var selectors = $('.toolbox-selector');
 
-        			
         			for(i = 0; i < selectors.length; i++) {
-        			
         				$(selectors[i]).delay(delay).fadeIn();
         				delay = delay + 500;
         			}
@@ -209,8 +188,6 @@ open: function(event,ui) {
         	// ToDo
         	
 			// 1 - Find the color of the colorized element (set to white if none)
-			
-			
 			
 			var defaultColor = (colorizedElement.css('backgroundColor') != 'transparent') ? colorizedElement.css('backgroundColor') : 'rgb(255, 255, 255)';
 			
@@ -275,6 +252,7 @@ open: function(event,ui) {
             colorChooser.appendTo(this);
         }
         
+        
         /**
 		 * extension function setColor
 		 * 
@@ -285,8 +263,9 @@ open: function(event,ui) {
 			this.css('backgroundColor', '#' + hex);
 		}
 		
+		
 		/**
-		 * function addIntroModal
+		 * function toHex
 		 * 
 		 * Parses RGB value to Hex Value (e.g. 255 to FF)
 		 *
@@ -301,6 +280,13 @@ open: function(event,ui) {
 			return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16);
 		}
 		
+		
+		/**
+		 * function addPositionSlider
+		 * 
+		 * Adds a position slider to a toolbox that controls a parentElement
+		 *
+		 */
 		$.fn.addPositionSlider = function(parentElement) {
 			var slider = $('<div class="slider"><ul><li class="sliderBar"></li><li class="sliderTool-title">Position</li></ul></div>');
 			$('.sliderBar', slider).slider({
@@ -314,15 +300,30 @@ open: function(event,ui) {
 			slider.appendTo(this);
 		}
 		
+		
+		/**
+		 * function addUploader
+		 * 
+		 * Adds an Uploadify uploader to a toolbox
+		 * Matches the colors of a page to the colors found in the logo
+		 * Set the background image of the parentElement to the uploaded file
+		 *
+		 */
 		$.fn.addUploader = function(parentElement) {
+			// Create an id based on the toolbox id
 			var id = 'uploader-' + toolBoxCount;
+			
+			// Form the HTML for the uploader
 			var uploader = $('<div class="upload"><input type="file" /><div id="queue-' + toolBoxCount + '"></div><a href="javascript:$(\'#' + id + '\').uploadifyUpload();">Upload Files</a></div>');
 			
+			// Create a random number to save the image with
 			var randomNumber = Math.floor(Math.random()*1000000001);
 			
+			// Set the name and ID
 			$('input', uploader).attr('id', id);
 			$('input', uploader).attr('name', id);
 			
+			// Add uploadify
 			$('input', uploader).uploadify({
 				'uploader'			: '../DesignTool/js/uploadify/uploadify.swf',
 				'script'			: '../DesignTool/js/uploadify/uploadify.php',
@@ -335,18 +336,47 @@ open: function(event,ui) {
 				'removeCompleted' 	: false,
 				'scriptData'		: {'uniqueFileID':randomNumber},
 				'onComplete'		: function(event, ID, fileObj, response, data) {
-					parentElement.changeImage(response);
+					
+					// parse the serialized result to JSON
+					var colorItem = jQuery.parseJSON(response);
+					
+					// Set the background image to the image that was uploaded
+					parentElement.changeImage(colorItem.image);
+					
+					// Loop through the returned colors, setting any "weight-i" class in the template to the color (this)
+					$.each(colorItem.colors, function(i) {
+					
+						// Get the class name
+						var colorElement = $('.weight-' + i);
+						
+						// Set the background color of that element
+						colorElement.css('background-color', this);
+						
+						// Find out if the element has a background changer
+						// If it does, set the color of the color picker
+						
+					});
 				}
 			});
 			
-			
-			
+			// Append the uploader to the toolbox
 			uploader.appendTo(this);
 		}
 		
+		
+		/**
+		 * function changeImage
+		 * 
+		 * Changes the background image of the element
+		 *
+		 */
 		$.fn.changeImage = function(imagePath) {
-			console.log(this);
+			// Set the image
 			this.css('background-image', "url('" + imagePath + "')");
+			// Set to no background repeating
+			this.css('background-repeat', 'no-repeat');
+			// Indent the text to hide it, but keep in the page for SEO
+			this.css('text-indent', '-9999px');
 		}
         
         
