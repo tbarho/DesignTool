@@ -1,5 +1,14 @@
-p, h1 {
-	margin: 0; padding: 0;
+body {
+	font-family: Arial;
+}
+
+img {
+	border: none;
+}
+
+h1 {
+	margin: 0; 
+	padding: 0;
 }
 a {
 	outline: none;
@@ -8,7 +17,7 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	background: #346b34;
+	background: #eee;
 }
 
 #body {
@@ -32,6 +41,14 @@ html, body {
 	height: 90px;
 }
 
+#menu {
+	padding: 5px;
+	background: #eee;
+	border: solid 1px #ccc;
+	border-left-width: 0px;
+	border-right-width: 0px;
+}
+
 #menu ul, #footer ul {
 	list-style: none;
 	overflow: auto;
@@ -44,9 +61,34 @@ html, body {
 	margin-right: 25px;
 }
 
+#menu ul li a {
+	color: #aaa;
+	text-decoration: none;
+}
+
+#menu ul li a:hover {
+	color: #000;
+}
+
+.splash ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 344px;
+}
+
+#content {
+	padding: 30px 10px;
+}
+
 #footer {
 	display: table-footer-group;
 	width: 900px;
 	height: 100px;
 	min-height: 100px;
+	background: #ccc;
+}
+
+#footer ul {
+	margin: 10px;
 }
