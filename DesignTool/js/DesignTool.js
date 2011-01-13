@@ -326,7 +326,7 @@
 			// Add uploadify
 			$('input', uploader).uploadify({
 				'uploader'			: '../DesignTool/js/uploadify/uploadify.swf',
-				'script'			: '../DesignTool/js/uploadify/uploadify.php',
+				'script'			: '../DesignTool/php/uploadify.php',
 				'cancelImg'			: '../DesignTool/js/uploadify/cancel.png',
 				'folder'			: '../uploads',
 				'auto'				: false,
